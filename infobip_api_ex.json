@@ -1,0 +1,29 @@
+{
+    "network": {
+        "id": 4511,
+        "countryId": 241,
+        "name": "Megafon",
+        "visible": true,
+        "mcc": null,
+        "mnc": null
+    },
+    "country": {
+        "id": 241,
+        "code": "RU",
+        "prefix": "7",
+        "name": "Russian Federation",
+        "locale": "Europe/Moscow"
+    },
+    "msisdn": "79217830101",
+    "networkPrefix": "92178",
+    "valid": true
+}
+
+{
+    "requestError": {
+        "serviceException": {
+            "messageId": "INVALID_GSM_NUMBER",
+            "text": "No valid gsm number provided"
+        }
+    }
+}

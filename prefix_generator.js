@@ -18,32 +18,41 @@ function generateNumArray () {
    for (let i = startList; i <= finishList; i = i + 100000000) {
       let postUrl = `https://oneapi.infobip.com/1/networks/resolve/${i}`
       fetchInfo(postUrl)
-      console.log(i)
-   }
-   
+   }  
 }
 
 //fetch sequence
+// function fetchInfo (postUrl) {
+//    fetch(postUrl, {
+//       method: 'POST',
+//       headers: {'Content-Type': 'application/json'}
+//       })
+   
+//       .then(response => response.json())
+
+//       .then(json => {
+//          let outputPara = document.createElement('p')
+//          if (('requestError'in json) == true ) {
+//             outputPara.textContent = `${json.requestError.serviceException.text}`
+//          } else {
+//             if (json.mcc == null && json.mnc == null) {
+//                outputPara.textContent = `prefix ${json.country.prefix}${json.networkPrefix} | ${json.network.name} ${json.country.code} | NNC undefined`
+//             } else {
+//                outputPara.textContent = `prefix ${json.country.prefix}${json.networkPrefix} | ${json.network.name} ${json.country.code} | NNC ${json.mcc} ${json.mnc}`
+//             }
+//          }
+         
+//          docBody.appendChild(outputPara)
+//       })
+// }
+
 function fetchInfo (postUrl) {
    fetch(postUrl, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'}
       })
-   
-      .then(response => response.json())
 
-      .then(json => {
-         let outputPara = document.createElement('p')
-         if (('requestError'in json) == true ) {
-            outputPara.textContent = `${json.requestError.serviceException.text}`
-         } else {
-            if (json.mcc == null && json.mnc == null) {
-               outputPara.textContent = `prefix ${json.country.prefix}${json.networkPrefix} | ${json.network.name} ${json.country.code} | NNC undefined`
-            } else {
-               outputPara.textContent = `prefix ${json.country.prefix}${json.networkPrefix} | ${json.network.name} ${json.country.code} | NNC ${json.mcc} ${json.mnc}`
-            }
-         }
-         
-         docBody.appendChild(outputPara)
-      })
+   .then(response => response.json())
+
+   .then(json => )
 }

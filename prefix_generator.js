@@ -10,49 +10,44 @@ let numLength = prompt('enter length')
 let startList = Number(countryCode * (10 ** (numLength - countryCode.length)))
 let finishList = Number(countryCode + ((10 ** (numLength - countryCode.length)) - 1))
 
-generateNumArray()
+generateNumList()
 
 
 //generate num list
-function generateNumArray () {
-   for (let i = startList; i <= finishList; i = i + 100000000) {
+function generateNumList () {
+   for (let i = startList; i <= finishList; i = i + 10000000) {
       let postUrl = `https://oneapi.infobip.com/1/networks/resolve/${i}`
       fetchInfo(postUrl)
    }  
 }
 
-//fetch sequence
-// function fetchInfo (postUrl) {
-//    fetch(postUrl, {
-//       method: 'POST',
-//       headers: {'Content-Type': 'application/json'}
-//       })
-   
-//       .then(response => response.json())
 
-//       .then(json => {
-//          let outputPara = document.createElement('p')
-//          if (('requestError'in json) == true ) {
-//             outputPara.textContent = `${json.requestError.serviceException.text}`
-//          } else {
-//             if (json.mcc == null && json.mnc == null) {
-//                outputPara.textContent = `prefix ${json.country.prefix}${json.networkPrefix} | ${json.network.name} ${json.country.code} | NNC undefined`
-//             } else {
-//                outputPara.textContent = `prefix ${json.country.prefix}${json.networkPrefix} | ${json.network.name} ${json.country.code} | NNC ${json.mcc} ${json.mnc}`
-//             }
-//          }
-         
-//          docBody.appendChild(outputPara)
-//       })
-// }
-
+// fetch sequence
 function fetchInfo (postUrl) {
    fetch(postUrl, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'}
       })
+   
+      .then(response => response.json())
 
-   .then(response => response.json())
+      .then(json => {const responseBody = json
+         appendRespBody(responseBody)
+      })
 
-   .then(json => )
+}
+
+//append sequence
+function appendRespBody(responseBody) {
+   let outputPara = document.createElement('p')
+      if (('requestError'in responseBody) == true ) {
+         outputPara.textContent = `${responseBody.requestError.serviceException.text}`
+      } else {
+         if (responseBody.mcc == null && responseBody.mnc == null) {
+            outputPara.textContent = `prefix ${responseBody.country.prefix}${responseBody.networkPrefix} | ${responseBody.network.name} ${responseBody.country.code} | NNC undefined`
+         } else {
+            outputPara.textContent = `prefix ${responseBody.country.prefix}${responseBody.networkPrefix} | ${responseBody.network.name} ${responseBody.country.code} | NNC ${responseBody.mcc} ${responseBody.mnc}`
+            }
+      docBody.appendChild(outputPara)
+      }
 }

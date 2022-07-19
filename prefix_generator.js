@@ -1,31 +1,37 @@
 //input args
 const docBody = document.getElementById('outputBody')
 const postUrl = 'https://oneapi.infobip.com/1/networks/resolve/'
+const generateButton = document.getElementById('generate-list')
 
-let countryCode = prompt("insert fixed numbers")
-let sampleNumber = prompt("insert number sample with fixed numbers")
-
-// generate num list start and end
-let listStart = countryCode * (10 ** (sampleNumber.toString().length - countryCode.toString().length))
-let listFinish = +(countryCode.toString() + (10 ** (sampleNumber.toString().length - countryCode.toString().length) - 1))
-
-fetchInfo(listFinish)
+generateButton.addEventListener('click', e => {
+   console.log(e)
+   let countryCode = document.getElementById('country-code').value
+   let sampleNumber = document.getElementById('sample-number').value
+   console.log(countryCode)
+   console.log(sampleNumber)
+   // generate num list start and end
+   let listStart = countryCode * (10 ** (sampleNumber.toString().length - countryCode.toString().length))
+   let listFinish = +(countryCode.toString() + (10 ** (sampleNumber.toString().length - countryCode.toString().length) - 1))
+   fetchInfo(listFinish,listStart)
+})
 
 
 //fetching fn
-async function fetchInfo(num) {
-   console.log(postUrl + num, 'started')
-   const response = await fetch( postUrl + num, {
+async function fetchInfo(varFin, start) {
+   console.log(postUrl + varFin, 'started')
+   const response = await fetch( postUrl + varFin, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'}
       })
    const json = await response.json()
    appendRespBody(json)
-   if (num > listStart) {
-      num = num - 100000
-      fetchInfo(num)
+   if (varFin > start) {
+      varFin = varFin - 100000
+      fetchInfo(varFin, start)
    } else {
-      console.alert("Finished")
+      let finSpan = document.createElement('span')
+      finSpan.textContent = 'Finished'
+      document.getElementById('control-group').appendChild(finSpan)
       return}
 }
 

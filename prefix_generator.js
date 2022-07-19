@@ -1,61 +1,47 @@
 //input args
 const docBody = document.getElementById('outputBody')
-const postUrl = 'https://jsonplaceholder.typicode.com/posts'
+const postUrl = 'https://oneapi.infobip.com/1/networks/resolve/'
 
-for (let i = 1; i <= 100; i++ ) {
-   Url = `${postUrl}/${i}`
-   console.log(fetchInfo(Url))
-}
+let countryCode = prompt("insert fixed numbers")
+let sampleNumber = prompt("insert number sample with fixed numbers")
+
+// generate num list start and end
+let listStart = countryCode * (10 ** (sampleNumber.toString().length - countryCode.toString().length))
+let listFinish = +(countryCode.toString() + (10 ** (sampleNumber.toString().length - countryCode.toString().length) - 1))
+
+fetchInfo(listFinish)
 
 
-async function fetchInfo(postUrl) {
-   console.log(postUrl, 'started')
-   const response = await fetch(postUrl, {
-      //method: 'POST',
-      //headers: {'Content-Type': 'application/json'}
+//fetching fn
+async function fetchInfo(num) {
+   console.log(postUrl + num, 'started')
+   const response = await fetch( postUrl + num, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'}
       })
    const json = await response.json()
-   return json
+   appendRespBody(json)
+   if (num > listStart) {
+      num = num - 100000
+      fetchInfo(num)
+   } else {
+      console.alert("Finished")
+      return}
 }
 
-
-
-//generate num list
-// function generateNumList () {
-//    for (let i = startList; i <= finishList; i = i + 10000000) {
-//       let postUrl = `https://oneapi.infobip.com/1/networks/resolve/${i}`
-//       fetchInfo(postUrl)
-//    }  
-// }
-
-
-// // fetch sequence
-// function fetchInfo (postUrl) {
-//    fetch(postUrl, {
-//       method: 'POST',
-//       headers: {'Content-Type': 'application/json'}
-//       })
-   
-//       .then(response => response.json())
-
-//       .then(json => {const responseBody = json
-//          appendRespBody(responseBody)
-//       })
-
-// }
-
-// //append sequence
-// function appendRespBody(responseBody) {
-//    let outputPara = document.createElement('p')
-//       if (('requestError'in responseBody) == true ) {
-//          outputPara.textContent = `${responseBody.requestError.serviceException.text}`
-//       } else {
-//          if (responseBody.mcc == null && responseBody.mnc == null) {
-//             outputPara.textContent = `prefix ${responseBody.country.prefix}${responseBody.networkPrefix} | ${responseBody.network.name} ${responseBody.country.code} | NNC undefined`
-//          } else {
-//             outputPara.textContent = `prefix ${responseBody.country.prefix}${responseBody.networkPrefix} | ${responseBody.network.name} ${responseBody.country.code} | NNC ${responseBody.mcc} ${responseBody.mnc}`
-//             }
-//       docBody.appendChild(outputPara)
-//       }
-// }
+//append sequence
+function appendRespBody(responseBody) {
+   let outputPara = document.createElement('p')
+   outputPara.textContent = responseBody
+      if (('requestError'in responseBody) == true ) {
+         outputPara.textContent = `${responseBody.requestError.serviceException.text}`
+      } else {
+         if (responseBody.mcc == null && responseBody.mnc == null) {
+            outputPara.textContent = `prefix ${responseBody.country.prefix}${responseBody.networkPrefix} | ${responseBody.network.name} ${responseBody.country.code} | NNC undefined`
+         } else {
+            outputPara.textContent = `prefix ${responseBody.country.prefix}${responseBody.networkPrefix} | ${responseBody.network.name} ${responseBody.country.code} | NNC ${responseBody.mcc} ${responseBody.mnc}`
+            }
+      docBody.appendChild(outputPara)
+      }
+}
 

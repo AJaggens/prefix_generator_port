@@ -10,7 +10,7 @@ generateButton.addEventListener('click', e => {
    console.log(countryCode)
    console.log(sampleNumber)
 
-   if (typeof countryCode == 'number' && typeof sampleNumber == 'number') {
+   if (typeof +countryCode == 'number' && typeof +sampleNumber == 'number') {
       // generate num list start and end
    let listStart = countryCode * (10 ** (sampleNumber.toString().length - countryCode.toString().length))
    let listFinish = +(countryCode.toString() + (10 ** (sampleNumber.toString().length - countryCode.toString().length) - 1))

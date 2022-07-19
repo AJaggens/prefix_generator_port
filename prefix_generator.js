@@ -9,12 +9,16 @@ generateButton.addEventListener('click', e => {
    let sampleNumber = document.getElementById('sample-number').value
    console.log(countryCode)
    console.log(sampleNumber)
-   // generate num list start and end
+
+   if (typeof countryCode == 'number' && typeof sampleNumber == 'number') {
+      // generate num list start and end
    let listStart = countryCode * (10 ** (sampleNumber.toString().length - countryCode.toString().length))
    let listFinish = +(countryCode.toString() + (10 ** (sampleNumber.toString().length - countryCode.toString().length) - 1))
    fetchInfo(listFinish,listStart)
+   } else {
+      alert('CountryCode or sample are not numbers')
+   }
 })
-
 
 //fetching fn
 async function fetchInfo(varFin, start) {

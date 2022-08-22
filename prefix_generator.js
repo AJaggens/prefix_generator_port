@@ -58,4 +58,5 @@ function appendRespBody(responseBody) {
       }
 }
 
-//todo: separate threads for 10x speed
+//todo: +more button, multiple fetch/append seqs
+//еще туду: свертка префиксов по специфичности

@@ -30,7 +30,7 @@ async function fetchInfo(varFin, start) {
    const json = await response.json()
    appendRespBody(json)
    if (varFin > start) {
-      varFin = varFin - 100000
+      varFin = varFin - 1000
       fetchInfo(varFin, start)
    } else {
       let finSpan = document.createElement('span')

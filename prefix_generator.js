@@ -2,11 +2,14 @@
 const docBody = document.getElementById('outputBody')
 const postUrl = 'https://oneapi.infobip.com/1/networks/resolve/'
 const generateButton = document.getElementById('generate-list')
+let stepValue = ''
 
 generateButton.addEventListener('click', e => {
    console.log(e)
    let countryCode = document.getElementById('country-code').value
    let sampleNumber = document.getElementById('sample-number').value
+   stepValue = document.getElementById('step-value').value
+
    console.log(countryCode)
    console.log(sampleNumber)
 
@@ -30,7 +33,7 @@ async function fetchInfo(varFin, start) {
    const json = await response.json()
    appendRespBody(json)
    if (varFin > start) {
-      varFin = varFin - 10000
+      varFin = varFin - stepValue
       fetchInfo(varFin, start)
    } else {
       let finSpan = document.createElement('span')
@@ -55,3 +58,4 @@ function appendRespBody(responseBody) {
       }
 }
 
+//todo: separate threads for 10x speed

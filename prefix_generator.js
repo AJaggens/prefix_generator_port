@@ -54,7 +54,11 @@ function appendRespBody(responseBody) {
          } else {
             outputPara.textContent = `prefix ${responseBody.country.prefix}${responseBody.networkPrefix} | ${responseBody.network.name} ${responseBody.country.code} | NNC ${responseBody.mcc} ${responseBody.mnc}`
             }
-      docBody.insertBefore(outputPara, docBody.firstChild)
+      if (outputPara.isEqualNode(docBody.firstChild)){
+         console.log('repeat')
+      } else {
+         docBody.insertBefore(outputPara, docBody.firstChild)
+      }
       }
 }
 

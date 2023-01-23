@@ -54,7 +54,7 @@ function appendRespBody(responseBody) {
          } else {
             outputPara.textContent = `prefix ${responseBody.country.prefix}${responseBody.networkPrefix} | ${responseBody.network.name} ${responseBody.country.code} | NNC ${responseBody.mcc} ${responseBody.mnc}`
             }
-      docBody.appendChild(outputPara)
+      docBody.insertBefore(outputPara, docBody.firstChild)
       }
 }
 

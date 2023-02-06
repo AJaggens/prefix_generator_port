@@ -2,7 +2,21 @@
 const docBody = document.getElementById('outputBody')
 const postUrl = 'https://oneapi.infobip.com/1/networks/resolve/'
 const generateButton = document.getElementById('generate-list')
+const checkListButton = document.getElementById('list-check')
 let stepValue = ''
+
+checkListButton.addEventListener('click', e => {
+   console.log(e)
+   let subArray = document.getElementById('sub-list').value.split('\n');
+   subArray.forEach(async sub => {
+      const response = await fetch( postUrl + sub, {
+         method: 'POST',
+         headers: {'Content-Type': 'application/json'}
+         })
+      const json = await response.json()
+      appendRespBody(json)
+   });
+})
 
 generateButton.addEventListener('click', e => {
    console.log(e)
@@ -46,7 +60,7 @@ async function fetchInfo(varFin, start) {
 function appendRespBody(responseBody) {
    let outputPara = document.createElement('p')
    outputPara.textContent = responseBody
-      if (('requestError'in responseBody) == true ) {
+      if (('requestError' in responseBody) == true ) {
          outputPara.textContent = `${responseBody.requestError.serviceException.text}`
       } else {
          if (responseBody.mcc == null && responseBody.mnc == null) {

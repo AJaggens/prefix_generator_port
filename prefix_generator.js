@@ -1,9 +1,10 @@
 //input args
-const docBody = document.getElementById('outputBody')
-const postUrl = 'https://oneapi.infobip.com/1/networks/resolve/'
-const generateButton = document.getElementById('generate-list')
-const checkListButton = document.getElementById('list-check')
-let stepValue = ''
+const docBody = document.getElementById('output-body');
+const postUrl = 'https://oneapi.infobip.com/1/networks/resolve/';
+const generateButton = document.getElementById('generate-list');
+const checkListButton = document.getElementById('list-check');
+let stepValue = '';
+
 
 checkListButton.addEventListener('click', e => {
    console.log(e)
@@ -14,7 +15,7 @@ checkListButton.addEventListener('click', e => {
          headers: {'Content-Type': 'application/json'}
          })
       const json = await response.json()
-      appendRespBody(json)
+      filterResp(json,filteredArray)
    });
 })
 
@@ -75,6 +76,3 @@ function appendRespBody(responseBody) {
       }
       }
 }
-
-//todo: +more button, multiple fetch/append seqs
-//еще туду: свертка префиксов по специфичности

@@ -8,16 +8,20 @@
     </head>
 
     <body>
-        <div id="control-group">
-            <input id="country-code" type="number" placeholder="Country Code">
-            <input id="sample-number" type="number" placeholder="Number Sample">
-            <input id="step-value" type="number" placeholder="Step Value">
-            <button id="generate-list">Generate</button>
+        <div id="version-select">
+            <button class="version-select-button button-selected" id="select-two">Version 2</button>
+            <button class="version-select-button button-unselected" id="select-three">Version 3</button>
         </div>
-        <div id="list-addon">
-            <textarea id="sub-list"></textarea>
-            <button id="list-check">Generate using list</button> 
+        <div id="control-group" class="version-two">
+            <input class="version-two" id="country-code" type="number" placeholder="Country Code">
+            <input class="version-two" id="sample-number" type="number" placeholder="Number Sample">
+            <input class="version-two" id="step-value" type="number" placeholder="Step Value">
+            <button class="version-two" id="generate-list">Generate</button>
         </div>
-        <div id="output-body"></div>
-    </body>   
+        <div class="version-two" id="list-addon">
+            <textarea class="version-two" id="sub-list"></textarea>
+            <button class="version-two" id="list-check">Generate using list</button> 
+        </div>
+        <div class="version-two" id="output-body"></div>
+    </body>
 </html>

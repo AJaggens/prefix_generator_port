@@ -1,3 +1,14 @@
+//page reconstruction
+const secondStoredBody = document.querySelectorAll('.version-two');
+document.getElementById('select-three').addEventListener('click', e => {
+   console.log(secondStoredBody);
+   document.body.querySelectorAll('.version-two').forEach( el => {
+      console.log(el)
+      document.body.removeChild(el);}
+   );
+});
+
+
 //input args
 const docBody = document.getElementById('output-body');
 const postUrl = 'https://oneapi.infobip.com/1/networks/resolve/';

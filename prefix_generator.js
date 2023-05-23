@@ -1,9 +1,26 @@
+//page reconstruction
+const secondStoredBody = document.querySelectorAll('.version-two');
+document.getElementById('select-three').addEventListener('click', e => {
+   console.log(secondStoredBody);
+   document.body.querySelectorAll('.version-two').forEach( el => {
+      console.log(el)
+      document.body.removeChild(el);}
+   );
+});
+
+
 //input args
-const docBody = document.getElementById('outputBody')
-const postUrl = 'https://oneapi.infobip.com/1/networks/resolve/'
-const generateButton = document.getElementById('generate-list')
-const checkListButton = document.getElementById('list-check')
-let stepValue = ''
+const docBody = document.getElementById('output-body');
+const postUrl = 'https://oneapi.infobip.com/1/networks/resolve/';
+const generateButton = document.getElementById('generate-list');
+const checkListButton = document.getElementById('list-check');
+const checkListInsert = document.getElementById('list-insert');
+let stepValue = '';
+
+//imports
+import networksJson from './libs/mno_networks.json' assert {type: 'json'};
+import infBillingJson from './libs/inf_billing_0323.json' assert {type: 'json'};
+
 
 checkListButton.addEventListener('click', e => {
    console.log(e)
@@ -14,7 +31,22 @@ checkListButton.addEventListener('click', e => {
          headers: {'Content-Type': 'application/json'}
          })
       const json = await response.json()
-      appendRespBody(json)
+      attachId(json, networksJson, infBillingJson);
+      appendListBody(json);
+   });
+})
+
+checkListInsert.addEventListener('click', e => {
+   console.log(e)
+   let subArray = document.getElementById('sub-list').value.split('\n');
+   subArray.forEach(async sub => {
+      const response = await fetch( postUrl + sub, {
+         method: 'POST',
+         headers: {'Content-Type': 'application/json'}
+         })
+      const json = await response.json()
+      attachId(json, networksJson, infBillingJson);
+      appendInsertBody(json);
    });
 })
 
@@ -44,8 +76,9 @@ async function fetchInfo(varFin, start) {
       method: 'POST',
       headers: {'Content-Type': 'application/json'}
       })
-   const json = await response.json()
-   appendRespBody(json)
+   const json = await response.json();
+   attachId(json, networksJson, infBillingJson);
+   appendRespBody(json);
    if (varFin > start) {
       varFin = varFin - stepValue
       fetchInfo(varFin, start)
@@ -54,6 +87,37 @@ async function fetchInfo(varFin, start) {
       finSpan.textContent = 'Finished'
       document.getElementById('control-group').appendChild(finSpan)
       return}
+}
+
+function appendInsertBody(responseBody) {
+   let outputPara = document.createElement('p')
+   outputPara.textContent = responseBody
+      if (('requestError' in responseBody) == true ) {
+         outputPara.textContent = `${responseBody.requestError.serviceException.text}`
+      } else {
+            outputPara.textContent = `insert into mno_prefixes (id_mno,code) values (${responseBody.id_mno},${responseBody.country.prefix}${responseBody.networkPrefix});`
+            }
+      if (outputPara.isEqualNode(docBody.firstChild)){
+         console.log('repeat')
+      } else {
+         docBody.insertBefore(outputPara, docBody.firstChild)
+      }
+}
+
+//append list body
+function appendListBody(responseBody) {
+   let outputPara = document.createElement('p')
+   outputPara.textContent = responseBody
+      if (('requestError' in responseBody) == true ) {
+         outputPara.textContent = `${responseBody.requestError.serviceException.text}`
+      } else {
+            outputPara.textContent = `prefix ${responseBody.country.prefix}${responseBody.networkPrefix} | localID ${responseBody.id_mno} | localname ${responseBody.localNetName} ${responseBody.country.name} | ${responseBody.network.name} | ${responseBody.country.code} | NNC ${responseBody.mcc} ${responseBody.mnc}`
+            }
+      if (outputPara.isEqualNode(docBody.firstChild)){
+         console.log('repeat')
+      } else {
+         docBody.insertBefore(outputPara, docBody.firstChild)
+      }
 }
 
 //append sequence
@@ -73,8 +137,15 @@ function appendRespBody(responseBody) {
       } else {
          docBody.insertBefore(outputPara, docBody.firstChild)
       }
-      }
 }
 
-//todo: +more button, multiple fetch/append seqs
-//еще туду: свертка префиксов по специфичности
+//attach net id
+function attachId(obj, networksJson, infBillingJson) {
+   let index = infBillingJson.findIndex(el => obj.country.name == el.country && obj.network.name == el.network);
+   obj.mcc = infBillingJson[index].mcc;
+   obj.mnc = infBillingJson[index].mnc;
+   index = networksJson.findIndex(el => el.MCC == obj.mcc && el.MNC == obj.mnc);
+   obj.id_mno = networksJson[index].id_mno;
+   obj.localNetName = networksJson[index].network;
+   return obj;
+}

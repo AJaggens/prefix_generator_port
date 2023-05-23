@@ -4,6 +4,24 @@ body {
     font-weight: 700;
 }
 
+#version-select{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.version-select-button{
+    flex: 1;
+}
+
+.version-select-button.button-selected {
+    background-color: black;
+    color: white;
+}
+
+.version-select-button.button-selected:hover{
+    background-color: slategray;
+}
+
 #control-group{
     margin: 16px;
 }

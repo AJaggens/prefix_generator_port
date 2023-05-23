@@ -138,6 +138,7 @@ function appendRespBody(responseBody) {
          docBody.insertBefore(outputPara, docBody.firstChild)
       }
 }
+}
 
 //attach net id
 function attachId(obj, networksJson, infBillingJson) {

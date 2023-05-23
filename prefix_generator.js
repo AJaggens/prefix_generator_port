@@ -127,7 +127,10 @@ function appendRespBody(responseBody) {
       if (('requestError' in responseBody) == true ) {
          outputPara.textContent = `${responseBody.requestError.serviceException.text}`
       } else {
-            outputPara.textContent = `prefix ${responseBody.country.prefix}${responseBody.networkPrefix} | ${responseBody.network.name} | ${responseBody.country.code} | NNC ${responseBody.mcc} ${responseBody.mnc}`
+         if (responseBody.mcc == null && responseBody.mnc == null) {
+            outputPara.textContent = `prefix ${responseBody.country.prefix}${responseBody.networkPrefix} / ${responseBody.network.name} / ${responseBody.country.code} / NNC undefined`
+         } else {
+            outputPara.textContent = `prefix ${responseBody.country.prefix}${responseBody.networkPrefix} / ${responseBody.network.name} / ${responseBody.country.code} / NNC ${responseBody.mcc} ${responseBody.mnc}`
             }
       if (outputPara.isEqualNode(docBody.firstChild)){
          console.log('repeat')

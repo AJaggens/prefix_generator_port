@@ -139,20 +139,35 @@ function appendRespBody(responseBody) {
 
 //attach net id
 function attachId(obj, networksJson, infBillingJson) {
-         let index = infBillingJson.findIndex(el => obj.country.name == el.country && obj.network.name == el.network);
-         obj.mcc = infBillingJson[index].mcc;
-         obj.mnc = infBillingJson[index].mnc;
-         index = networksJson.findIndex(el => el.MCC == obj.mcc && el.MNC == obj.mnc);
-         console.log(networksJson[index])
-         if (networksJson[index] == undefined) {
-            obj.id_mno = 'NULL'
-         } else {
-            obj.id_mno = networksJson[index].id_mno;
-         }
-         if (networksJson[index] == undefined) {
-            obj.localNetName = 'NULL'
-         } else {
-            obj.localNetName = networksJson[index].network;
-         }
-         return obj;
+   console.log(obj)
+   let index = infBillingJson.findIndex(el => obj.country.name == el.country && obj.network.name == el.network);
+   if (index == -1 && obj.network.mnc == '') {
+      obj.id_mno = 'NULL'
+      obj.localNetName = 'Landline'
+      obj.mnc = '00'
+      obj.mcc = obj.network.mcc
+   } else if (index == -1 && obj.network.mnc != '') {
+      obj.id_mno = 'NULL'
+      obj.localNetName = 'NULL'
+      obj.mnc = 'NULL'
+      obj.mcc = 'NULL'
+      console.log('Network not found and not landline, skipping')
+   } else {
+      obj.mcc = infBillingJson[index].mcc;
+      obj.mnc = infBillingJson[index].mnc;
+      index = networksJson.findIndex(el => el.MCC == obj.mcc && el.MNC == obj.mnc);
+      console.log(networksJson[index])
+      if (networksJson[index] == undefined) {
+         obj.id_mno = 'NULL'
+      } else {
+         obj.id_mno = networksJson[index].id_mno;
+      }
+      if (networksJson[index] == undefined) {
+         obj.localNetName = 'NULL'
+      } else {
+         obj.localNetName = networksJson[index].network;
+      }
+      return obj;
+      }
+   
 }

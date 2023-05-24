@@ -1,14 +1,3 @@
-//page reconstruction
-const secondStoredBody = document.querySelectorAll('.version-two');
-document.getElementById('select-three').addEventListener('click', e => {
-   console.log(secondStoredBody);
-   document.body.querySelectorAll('.version-two').forEach( el => {
-      console.log(el)
-      document.body.removeChild(el);}
-   );
-});
-
-
 //input args
 const docBody = document.getElementById('output-body');
 const postUrl = 'https://oneapi.infobip.com/1/networks/resolve/';
@@ -31,7 +20,12 @@ checkListButton.addEventListener('click', e => {
          headers: {'Content-Type': 'application/json'}
          })
       const json = await response.json()
-      appendListBody(json);
+      if (json.requestError == undefined) {
+         attachId(json, networksJson, infBillingJson);
+         appendListBody(json);
+      } else {
+         console.log(json)
+      }      
    });
 })
 
@@ -44,9 +38,12 @@ checkListInsert.addEventListener('click', e => {
          headers: {'Content-Type': 'application/json'}
          })
       const json = await response.json()
-      console.log(json)
-      attachId(json, networksJson, infBillingJson);
-      appendInsertBody(json);
+      if (json.requestError == undefined) {
+         attachId(json, networksJson, infBillingJson);
+         appendInsertBody(json);
+      } else {
+         console.log(json)
+      }      
    });
 })
 
@@ -92,11 +89,11 @@ async function fetchInfo(varFin, start) {
 function appendInsertBody(responseBody) {
    let outputPara = document.createElement('p')
    outputPara.textContent = responseBody
-      if (('requestError' in responseBody) == true ) {
-         outputPara.textContent = `${responseBody.requestError.serviceException.text}`
+      if (responseBody.id_mno == 'NULL' || responseBody.localNetName == 'NULL') {
+         outputPara.textContent = `Local_ID or LocalName is NULL`
       } else {
-            outputPara.textContent = `insert into mno_prefixes (id_mno,code) values (${responseBody.id_mno},${responseBody.country.prefix}${responseBody.networkPrefix});`
-            }
+         outputPara.textContent = `insert into mno_prefixes (id_mno,code) values (${responseBody.id_mno},${responseBody.country.prefix}${responseBody.networkPrefix});`
+         }
       if (outputPara.isEqualNode(docBody.firstChild)){
          console.log('repeat')
       } else {
@@ -111,7 +108,7 @@ function appendListBody(responseBody) {
       if (('requestError' in responseBody) == true ) {
          outputPara.textContent = `${responseBody.requestError.serviceException.text}`
       } else {
-            outputPara.textContent = `prefix ${responseBody.country.prefix}${responseBody.networkPrefix} | localID ${responseBody.id_mno} | localname ${responseBody.localNetName} ${responseBody.country.name} | ${responseBody.network.name} | ${responseBody.country.code} | NNC ${responseBody.mcc} ${responseBody.mnc}`
+            outputPara.textContent = `prefix ${responseBody.country.prefix}${responseBody.networkPrefix} | Local_ID is ${responseBody.id_mno} | LocalName is ${responseBody.localNetName} ${responseBody.country.name} | ${responseBody.network.name} | ${responseBody.country.code} | NNC ${responseBody.mcc} ${responseBody.mnc}`
             }
       if (outputPara.isEqualNode(docBody.firstChild)){
          console.log('repeat')
@@ -142,20 +139,20 @@ function appendRespBody(responseBody) {
 
 //attach net id
 function attachId(obj, networksJson, infBillingJson) {
-   switch (obj) {
-      case (obj.country.name == undefined): {
-         console.log(`error`);
-         break;
-      }
-      default: {
          let index = infBillingJson.findIndex(el => obj.country.name == el.country && obj.network.name == el.network);
          obj.mcc = infBillingJson[index].mcc;
          obj.mnc = infBillingJson[index].mnc;
          index = networksJson.findIndex(el => el.MCC == obj.mcc && el.MNC == obj.mnc);
-         obj.id_mno = networksJson[index].id_mno;
-         obj.localNetName = networksJson[index].network;
+         console.log(networksJson[index])
+         if (networksJson[index] == undefined) {
+            obj.id_mno = 'NULL'
+         } else {
+            obj.id_mno = networksJson[index].id_mno;
+         }
+         if (networksJson[index] == undefined) {
+            obj.localNetName = 'NULL'
+         } else {
+            obj.localNetName = networksJson[index].network;
+         }
          return obj;
-      }
-   }
-   
 }

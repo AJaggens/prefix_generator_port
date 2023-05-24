@@ -31,7 +31,6 @@ checkListButton.addEventListener('click', e => {
          headers: {'Content-Type': 'application/json'}
          })
       const json = await response.json()
-      attachId(json, networksJson, infBillingJson);
       appendListBody(json);
    });
 })
@@ -45,6 +44,7 @@ checkListInsert.addEventListener('click', e => {
          headers: {'Content-Type': 'application/json'}
          })
       const json = await response.json()
+      console.log(json)
       attachId(json, networksJson, infBillingJson);
       appendInsertBody(json);
    });
@@ -142,11 +142,20 @@ function appendRespBody(responseBody) {
 
 //attach net id
 function attachId(obj, networksJson, infBillingJson) {
-   let index = infBillingJson.findIndex(el => obj.country.name == el.country && obj.network.name == el.network);
-   obj.mcc = infBillingJson[index].mcc;
-   obj.mnc = infBillingJson[index].mnc;
-   index = networksJson.findIndex(el => el.MCC == obj.mcc && el.MNC == obj.mnc);
-   obj.id_mno = networksJson[index].id_mno;
-   obj.localNetName = networksJson[index].network;
-   return obj;
+   switch (obj) {
+      case (obj.country.name == undefined): {
+         console.log(`error`);
+         break;
+      }
+      default: {
+         let index = infBillingJson.findIndex(el => obj.country.name == el.country && obj.network.name == el.network);
+         obj.mcc = infBillingJson[index].mcc;
+         obj.mnc = infBillingJson[index].mnc;
+         index = networksJson.findIndex(el => el.MCC == obj.mcc && el.MNC == obj.mnc);
+         obj.id_mno = networksJson[index].id_mno;
+         obj.localNetName = networksJson[index].network;
+         return obj;
+      }
+   }
+   
 }

@@ -10,7 +10,7 @@ let stepValue = '';
 import networksJson from './libs/mno_networks.json' assert {type: 'json'};
 import infBillingJson from './libs/inf_billing_0323.json' assert {type: 'json'};
 
-
+//checklist button click event
 checkListButton.addEventListener('click', e => {
    console.log(e)
    let subArray = document.getElementById('sub-list').value.split('\n');
@@ -24,11 +24,12 @@ checkListButton.addEventListener('click', e => {
          attachId(json, networksJson, infBillingJson);
          appendListBody(json);
       } else {
-         console.log(json)
+         console.log('error')
       }      
    });
 })
 
+//checklist and convert to sqlinserts button click event
 checkListInsert.addEventListener('click', e => {
    console.log(e)
    let subArray = document.getElementById('sub-list').value.split('\n');
@@ -42,11 +43,12 @@ checkListInsert.addEventListener('click', e => {
          attachId(json, networksJson, infBillingJson);
          appendInsertBody(json);
       } else {
-         console.log(json)
+         console.log('error')
       }      
    });
 })
 
+//start generating subs based on cc and codelength button click event
 generateButton.addEventListener('click', e => {
    console.log(e)
    let countryCode = document.getElementById('country-code').value
@@ -86,19 +88,16 @@ async function fetchInfo(varFin, start) {
       return}
 }
 
+//append sql inserts instead of json data
 function appendInsertBody(responseBody) {
    let outputPara = document.createElement('p')
    outputPara.textContent = responseBody
-      if (responseBody.id_mno == 'NULL' || responseBody.localNetName == 'NULL') {
-         outputPara.textContent = `Local_ID or LocalName is NULL`
-      } else {
-         outputPara.textContent = `insert into mno_prefixes (id_mno,code) values (${responseBody.id_mno},${responseBody.country.prefix}${responseBody.networkPrefix});`
-         }
-      if (outputPara.isEqualNode(docBody.firstChild)){
-         console.log('repeat')
-      } else {
-         docBody.insertBefore(outputPara, docBody.firstChild)
+   if (responseBody.id_mno == 'NULL' || responseBody.localNetName == 'NULL') {
+      outputPara.textContent = `Local_ID or LocalName is NULL`
+   } else {
+      outputPara.textContent = `insert into mno_prefixes (id_mno,code) values (${responseBody.id_mno},${responseBody.country.prefix}${responseBody.networkPrefix});`
       }
+   filterResp(outputPara)
 }
 
 //append list body
@@ -110,11 +109,7 @@ function appendListBody(responseBody) {
       } else {
             outputPara.textContent = `prefix ${responseBody.country.prefix}${responseBody.networkPrefix} | Local_ID is ${responseBody.id_mno} | LocalName is ${responseBody.localNetName} ${responseBody.country.name} | ${responseBody.network.name} | ${responseBody.country.code} | NNC ${responseBody.mcc} ${responseBody.mnc}`
             }
-      if (outputPara.isEqualNode(docBody.firstChild)){
-         console.log('repeat')
-      } else {
-         docBody.insertBefore(outputPara, docBody.firstChild)
-      }
+   filterResp(outputPara)
 }
 
 //append sequence
@@ -170,4 +165,17 @@ function attachId(obj, networksJson, infBillingJson) {
       return obj;
       }
    
+}
+
+//filter and append resp depending on current output nodelist
+function filterResp(resp) {
+   if (docBody.hasChildNodes()) {
+      if (Array.from(docBody.childNodes).find(node => node.isEqualNode(resp))){
+         console.log('skipping')
+      } else {
+         docBody.insertBefore(resp, docBody.firstChild)
+      }
+   } else {
+      docBody.appendChild(resp)
+   }
 }

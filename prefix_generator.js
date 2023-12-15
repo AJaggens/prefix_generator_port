@@ -20,11 +20,11 @@ checkListButton.addEventListener('click', e => {
          headers: {'Content-Type': 'application/json'}
          })
       const json = await response.json()
-      if (json.requestError.serviceException.messageId == "INVALID_GSM_NUMBER") {
-         console.log(json.requestError.serviceException.text)
-      } else {
+      if (json.valid == true) {
          attachId(json, networksJson, infBillingJson);
-         appendListBody(json);
+         appendListBody(json);   
+      } else {
+         console.error(json.requestError.serviceException.text)
       }      
    });
 })

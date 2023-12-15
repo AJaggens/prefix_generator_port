@@ -76,6 +76,10 @@ async function fetchInfo(varFin, start) {
       headers: {'Content-Type': 'application/json'}
       })
    const json = await response.json();
+   if (json.requestError == true) {
+      console.log(`Error, skip attachID`)}
+   else {attachId(json, networksJson, infBillingJson);
+        };
    attachId(json, networksJson, infBillingJson);
    appendRespBody(json);
    if (varFin > start) {

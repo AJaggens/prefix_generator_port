@@ -20,11 +20,11 @@ checkListButton.addEventListener('click', e => {
          headers: {'Content-Type': 'application/json'}
          })
       const json = await response.json()
-      if (json.requestError == undefined) {
+      if (json.requestError.serviceException.messageId == "INVALID_GSM_NUMBER") {
+         console.log(json.requestError.serviceException.text)
+      } else {
          attachId(json, networksJson, infBillingJson);
          appendListBody(json);
-      } else {
-         console.log('error')
       }      
    });
 })
@@ -76,12 +76,13 @@ async function fetchInfo(varFin, start) {
       headers: {'Content-Type': 'application/json'}
       })
    const json = await response.json();
-   if (json.requestError == true) {
-      console.log(`Error, skip attachID`)}
-   else {attachId(json, networksJson, infBillingJson);
-      appendRespBody(json);
-        };
-        
+   if (json.requestError) {
+      console.log(json.requestError.serviceException.text)
+   } else {
+      attachId(json, networksJson, infBillingJson);
+      appendListBody(json);
+   };
+
    if (varFin > start) {
       varFin = varFin - stepValue
       fetchInfo(varFin, start)

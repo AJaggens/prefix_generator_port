@@ -79,9 +79,9 @@ async function fetchInfo(varFin, start) {
    if (json.requestError == true) {
       console.log(`Error, skip attachID`)}
    else {attachId(json, networksJson, infBillingJson);
+      appendRespBody(json);
         };
-   attachId(json, networksJson, infBillingJson);
-   appendRespBody(json);
+        
    if (varFin > start) {
       varFin = varFin - stepValue
       fetchInfo(varFin, start)

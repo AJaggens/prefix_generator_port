@@ -7,8 +7,8 @@ const checkListInsert = document.getElementById('list-insert');
 let stepValue = '';
 
 //imports
-import networksJson from './libs/mno_networks.json' assert {type: 'json'};
-import infBillingJson from './libs/inf_billing_0323.json' assert {type: 'json'};
+import networksJson from './libs/mno_networks.json' with { type: "json" };
+import infBillingJson from './libs/inf_billing_0323.json' with { type: "json" };
 
 //checklist button click event
 checkListButton.addEventListener('click', e => {

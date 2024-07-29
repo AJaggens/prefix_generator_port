@@ -14091,13 +14091,6 @@
         "network": "Claro Argentina"
     },
     {
-        "id_mno": "1327",
-        "MCC": "722",
-        "MNC": "34",
-        "country": "Argentina",
-        "network": "Telecom Personal S.a."
-    },
-    {
         "id_mno": "98",
         "MCC": "722",
         "MNC": "340",

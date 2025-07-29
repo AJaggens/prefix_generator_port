@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Prefix Generator</title>
+        <link rel="stylesheet" href="./prefix_generator.css">
+        <script src="./ds_routing_test.js" type="module" defer></script>
+    </head>
+
+    <body>
+        <div id="control-group" class="ds_routing_test">
+            <input class="ds_routing_test" id="id_client" type="number" placeholder="client id">
+            <input class="ds_routing_test" id="mcc" type="number" placeholder="MCC">
+            <input class="ds_routing_test" id="mnc_list" type="string" placeholder="MNC list">
+        </div>
+        <div id="control-group" class="ds_routing_test">
+            <input class="ds_routing_test" id="id_partners_pool" type="number" placeholder="partner pool id">
+            <input class="ds_routing_test" id="sender" type="string" placeholder="sender">
+            <input class="ds_routing_test" id="priority" type="number" placeholder="priority">
+        </div>
+        <div id="control-group" class="ds_routing_test">
+            <textarea class="ds_routing_test" id="patterns" type="sub-list" placeholder="pattern list"></textarea>
+           <button class="ds_routing_test" id="generate-list">Generate</button>
+        </div>
+        <div class="ds_routing_test" id="output-body"></div>
+    </body>
+</html>

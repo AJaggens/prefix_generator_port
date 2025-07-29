@@ -1,3 +1,13 @@
+const generateButton = document.getElementById('generate-list');
+
+//input args
+let id_client = document.getElementById('id_client').value;
+let mcc = document.getElementById('mcc').value;
+let mnc_list = document.getElementById('mnc_list').value;
+let sender = document.getElementById('sender').value;
+let patterns = document.getElementById('patterns').value;
+let priority = document.getElementById('priority').value;
+let id_partners_pool = document.getElementById('id_partners_pool').value;
 
 
 function generateRoutingTemplateSQL({
@@ -5,10 +15,15 @@ function generateRoutingTemplateSQL({
     mcc,
     mnc_list,
     sender,
-    patterns
+    patterns,
+    priority,
+    id_partners_pool,
 }) {
     // Разбиваем входные данные на массивы
     const mncs = mnc_list.trim().split(/\s+/).filter(Boolean);
+    const prio = priority;
+    const partnerPool = id_partners_pool;
+    const senderOut = sender;
     const patternList = patterns.trim().split('\n')
         .map(p => p.trim())
         .filter(Boolean)
@@ -19,7 +34,7 @@ function generateRoutingTemplateSQL({
 
     // 1. Генерация SQL для вставки правил
     const rulesValues = mncs.map(mnc => 
-        `(${id_client}, '${mcc}', '${mnc}', 0, 0, 0, '${sender.replace(/'/g, "''")}', NULL, 0, NULL, NULL)`
+        `(${id_client}, '${mcc}', '${mnc}', ${partnerPool}, 0, ${prio}, '${senderOut}', 'any', 0, 'any', NULL)`
     ).join(',\n    ');
 
     const rulesSQL = `INSERT INTO routing_rules (
@@ -70,13 +85,23 @@ SELECT
 }
 
 // Пример использования
-const sqlScript = generateRoutingTemplateSQL({
-    id_client: 2310,
-    mcc: '250',
-    mnc_list: '01 02 11 20 39 62 99',
-    sender: 'Bitget',
-    patterns: `[Bitget] Код подтверждения для нового устройства: 405713; Место входа: Russia-St.-Petersburg-St Petersburg; IP-адрес: 95.54.220.225
-[Bitget] Проверочный код: 388954. Вы привязываете Google Authenticator.`
-});
+// const sqlScript = generateRoutingTemplateSQL({
+//     id_client: 2310,
+//     mcc: '250',
+//     mnc_list: '01 02 11 20 39 62 99',
+//     sender: 'Bitget',
+//     patterns: `[Bitget] Код подтверждения для нового устройства: 405713; Место входа: Russia-St.-Petersburg-St Petersburg; IP-адрес: 95.54.220.225
+// [Bitget] Проверочный код: 388954. Вы привязываете Google Authenticator.`
+// });
 
-console.log(sqlScript);
+//start generating subs based on cc and codelength button click event
+generateButton.addEventListener('click', e => {
+    console.log(id_client);
+    console.log(e);
+    console.log(e);
+    console.log(e);
+    console.log(e);
+    const sqlScript = generateRoutingTemplateSQL();
+    console.log(sqlScript);
+})
+

@@ -8,7 +8,7 @@ let stepValue = '';
 
 //imports
 import networksJson from './libs/mno_networks.json' with { type: "json" };
-import infBillingJson from './libs/inf_billing_0323.json' with { type: "json" };
+import billingJson from './libs/billing_modified.json' with { type: "json" };
 
 //checklist button click event
 checkListButton.addEventListener('click', e => {
@@ -21,7 +21,7 @@ checkListButton.addEventListener('click', e => {
          })
       const json = await response.json()
       if (json.valid == true) {
-         attachId(json, networksJson, infBillingJson);
+         attachId(json, networksJson, billingJson);
          appendListBody(json);   
       } else {
          console.error(json.requestError.serviceException.text)
@@ -40,7 +40,7 @@ checkListInsert.addEventListener('click', e => {
          })
       const json = await response.json()
       if (json.requestError == undefined) {
-         attachId(json, networksJson, infBillingJson);
+         attachId(json, networksJson, billingJson);
          appendInsertBody(json);
       } else {
          console.log('error')
@@ -79,7 +79,7 @@ async function fetchInfo(varFin, start) {
    if (json.requestError) {
       console.log(json.requestError.serviceException.text)
    } else {
-      attachId(json, networksJson, infBillingJson);
+      attachId(json, networksJson, billingJson);
       appendListBody(json);
    };
 
@@ -138,9 +138,9 @@ function appendRespBody(responseBody) {
 }
 
 //attach net id
-function attachId(obj, networksJson, infBillingJson) {
+function attachId(obj, networksJson, billingJson) {
    console.log(obj)
-   let index = infBillingJson.findIndex(el => obj.country.name == el.country && obj.network.name == el.network);
+   let index = billingJson.findIndex(el => obj.country.name == el.country && obj.network.name == el.network);
    if (index == -1 && obj.network.mnc == '') {
       obj.id_mno = 'NULL'
       obj.localNetName = 'Landline'
@@ -153,8 +153,8 @@ function attachId(obj, networksJson, infBillingJson) {
       obj.mcc = 'NULL'
       console.log('Network not found and not landline, skipping')
    } else {
-      obj.mcc = infBillingJson[index].mcc;
-      obj.mnc = infBillingJson[index].mnc;
+      obj.mcc = billingJson[index].mcc;
+      obj.mnc = billingJson[index].mnc;
       index = networksJson.findIndex(el => el.MCC == obj.mcc && el.MNC == obj.mnc);
       console.log(networksJson[index])
       if (networksJson[index] == undefined) {

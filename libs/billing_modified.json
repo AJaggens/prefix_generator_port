@@ -15548,6 +15548,32 @@
         "Price Valid from": ""
     },
     {
+        "continent": "AS - South-central Asia",
+        "cc_iso": "UZ",
+        "country_code": "+998",
+        "country": "Uzbekistan",
+        "network": "Beeline (Unitel LLC)",
+        "mcc": "434",
+        "mnc": "04",
+        "mcc_mnc": "43404",
+        "Old Price (EUR)": "0.0014",
+        "New Price (EUR)": "0.0014",
+        "Price Valid from": ""
+    },
+    {
+        "continent": "AS - South-central Asia",
+        "cc_iso": "UZ",
+        "country_code": "+998",
+        "country": "Uzbekistan",
+        "network": "Perfectum Mobile (Rubicon) (CDMA)",
+        "mcc": "434",
+        "mnc": "06",
+        "mcc_mnc": "43406",
+        "Old Price (EUR)": "0.0014",
+        "New Price (EUR)": "0.0014",
+        "Price Valid from": ""
+    },
+    {
         "continent": "SA - South America",
         "cc_iso": "VE",
         "country_code": "+58",

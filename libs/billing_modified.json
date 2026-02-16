@@ -15535,6 +15535,19 @@
         "Price Valid from": ""
     },
     {
+        "continent": "AS - South-central Asia",
+        "cc_iso": "UZ",
+        "country_code": "+998",
+        "country": "Uzbekistan",
+        "network": "Humans (UzMobile MVNO)",
+        "mcc": "434",
+        "mnc": "10",
+        "mcc_mnc": "43410",
+        "Old Price (EUR)": "0.0014",
+        "New Price (EUR)": "0.0014",
+        "Price Valid from": ""
+    },
+    {
         "continent": "SA - South America",
         "cc_iso": "VE",
         "country_code": "+58",

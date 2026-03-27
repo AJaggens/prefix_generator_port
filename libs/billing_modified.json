@@ -9477,6 +9477,58 @@
         "Price Valid from": ""
     },
     {
+        "continent": "Madagascar",
+        "cc_iso": "MG",
+        "country_code": "+261",
+        "country": "Madagascar",
+        "network": "Airtel",
+        "mcc": "646",
+        "mnc": "01",
+        "mcc_mnc": "64601",
+        "Old Price (EUR)": "0.0014",
+        "New Price (EUR)": "0.0014",
+        "Price Valid from": ""
+    },
+    {
+        "continent": "Madagascar",
+        "cc_iso": "MG",
+        "country_code": "+261",
+        "country": "Madagascar",
+        "network": "Orange Madagascar",
+        "mcc": "646",
+        "mnc": "02",
+        "mcc_mnc": "64602",
+        "Old Price (EUR)": "0.0014",
+        "New Price (EUR)": "0.0014",
+        "Price Valid from": ""
+    },
+    {
+        "continent": "Madagascar",
+        "cc_iso": "MG",
+        "country_code": "+261",
+        "country": "Madagascar",
+        "network": "Telma Mobile",
+        "mcc": "646",
+        "mnc": "04",
+        "mcc_mnc": "64604",
+        "Old Price (EUR)": "0.0014",
+        "New Price (EUR)": "0.0014",
+        "Price Valid from": ""
+    },
+    {
+        "continent": "Madagascar",
+        "cc_iso": "MG",
+        "country_code": "+261",
+        "country": "Madagascar",
+        "network": "Sacel",
+        "mcc": "646",
+        "mnc": "03",
+        "mcc_mnc": "64603",
+        "Old Price (EUR)": "0.0014",
+        "New Price (EUR)": "0.0014",
+        "Price Valid from": ""
+    },
+    {
         "continent": "E - Western Europe",
         "cc_iso": "LI",
         "country_code": "+423",

@@ -10276,8 +10276,8 @@
         "country": "Netherlands",
         "network": "KPN B.V. (Telfort B.V.)",
         "mcc": "204",
-        "mnc": "12",
-        "mcc_mnc": "20412",
+        "mnc": "08",
+        "mcc_mnc": "20408",
         "Old Price (EUR)": "0.0014",
         "New Price (EUR)": "0.0014",
         "Price Valid from": ""

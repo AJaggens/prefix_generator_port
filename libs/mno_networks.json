@@ -665,6 +665,13 @@
         "network": "Telefónica Móviles España, S.A.U."
     },
     {
+        "id_mno": "2235",
+        "MCC": "214",
+        "MNC": "92",
+        "country": "Spain",
+        "network": "Lebara"
+    },
+    {
         "id_mno": "324",
         "MCC": "214",
         "MNC": "999",

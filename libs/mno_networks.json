@@ -14483,6 +14483,13 @@
         "network": "Default"
     },
     {
+        "id_mno": "2239",
+        "MCC": "334",
+        "MNC": "140",
+        "country": "Mexico",
+        "network": "Altan"
+    },
+    {
         "id_mno": "728",
         "MCC": "736",
         "MNC": "01",
